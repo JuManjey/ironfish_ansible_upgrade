@@ -1,0 +1,21 @@
+- name: Download and install IronFish
+  hosts: ironfish
+  become: true
+  tasks:
+    - name: Gather facts
+      setup:
+
+    - name: Download the script
+      shell: wget -q -O ironfish.sh https://api.nodes.guru/ironfish.sh
+
+    - name: Make the script executable
+      shell: chmod +x ironfish.sh
+
+    - name: Remove IronFish
+      shell: echo 2 | sudo /bin/bash ironfish.sh
+
+    - name: Set nodeName configuration value
+      command: ironfish config:set nodeName "{{ ansible_hostname }}"
+    
+    - name: Set blockGraffiti configuration value
+      command: ironfish config:set blockGraffiti "{{ ansible_hostname }}"
